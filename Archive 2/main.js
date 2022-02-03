@@ -13,7 +13,8 @@ btn.addEventListener('click' , submit);
 function submit(e) {
     e.preventDefault();
     const contact1 = new Contact(fName.value,lName.value,email.value,phone.value,nationality.value,displayRadioValue(),Date.now())
-    AllContact.add(contact1);  
+    AllContact.add(contact1);
+    
 }
 
 function displayRadioValue() {
@@ -71,8 +72,9 @@ class Contact{
         this.gender = gender;
         this.id = id;
     }
+ 
     static validate(){
-        
+
     }
 }
 
@@ -86,43 +88,36 @@ class ContactList{
         this.render()
     }
     delete(id){
-        this.allContacts = this.allContacts.filter(el=>{
-            if(el.id != id){
-                return true
-            }
-    })
+        console.log(this.allContacts);
+       this.allContacts = this.allContacts.filter(el=>
+            (el.id != id)
+        )
+        console.log(this.allContacts);
         this.render()
     }
     refresh(){
         this.allContacts = []
     }
     render(){
-        tBody.innerHTML = ""
-        console.log(this.allContacts);
-        this.allContacts.forEach((item, index)=>{  
+        this.allContacts.forEach((item , index)=>{
+            
             let TR = document.createElement("tr");
-            TR.id = item.id;
             TR.innerHTML = `
-                            <th class="counter"  scope="row">${index+1}</th>
+                            <th class="counter" id="${item.id}" scope="row">${++count}</th>
                             <td>${item.fName+" "+item.lName}</td>
                             <td>${item.email}</td>
                             <td>${item.phone}</td>
                             <td>${displayRadioValue()}</td>
                             <td>${item.nationality}</td>
-                            <td><button class="delete bg-danger border-none">Delet</button></td>
+                            <td><button onclick="removee(${item.id})" class="delete bg-danger border-none">Delet</button></td>
                         `  
                     tBody.appendChild(TR);
-                    
         })
     }
 }
-document.addEventListener('click' , event =>{
-    if(event.target.classList.contains('delete')){
-        let myId =  event.target.parentNode.parentNode.id;
-        AllContact.delete(myId);
-    }
-    
-})
+function removee(id){
+    AllContact.delete(id)
+}
 
 const AllContact = new ContactList();
 
