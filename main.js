@@ -6,6 +6,9 @@ const nationality = document.getElementById("nationality");
 const btn  = document.getElementById("submitBtn");
 const tBody = document.getElementById("tableBody");
 const gender = document.querySelectorAll('input[name=gender]');
+const fName_error_div = document.querySelector("#firstName-error");
+const lName_error_div = document.querySelector("#lastName-error");
+
 let count = 0;
 btn.addEventListener('click' , submit);
 
@@ -13,6 +16,8 @@ btn.addEventListener('click' , submit);
 function submit(e) {
     e.preventDefault();
     const contact1 = new Contact(fName.value,lName.value,email.value,phone.value,nationality.value,displayRadioValue(),Date.now())
+    contact1.firstNameValidate()
+    contact1.lastNameValidate()
     AllContact.add(contact1);  
 }
 
@@ -35,25 +40,25 @@ function displayRadioValue() {
 //     })
 // }
 
-function validate(input , type) {
-    // !input.value ? "first name is empty" : true;    
-    if(!input.value){
-        throw `${input.value}isn't valid!`
-    }
-    // switch (type){
-    //     case("fName"):
-    //     if(input.value.length > 20){
-    //         throw 'first name most be less than 20 character'
-    //     }
-    //     case('phone'):
-    //     if (!input.value.match(/\d/g).length === 11){
-    //         throw 'invalid phone number'
-    //     }
-    // }
-    return true
-}
+// function validate(input , type) {
+//     // !input.value ? "first name is empty" : true;    
+//     if(!input.value){
+//         throw `${input.value}isn't valid!`
+//     }
+//     switch (type){
+//         case("fName"):
+//         if(input.value.length > 20){
+//             throw 'first name most be less than 20 character'
+//         }
+//         case('phone'):
+//         if (!input.value.match(/\d/g).length === 11){
+//             throw 'invalid phone number'
+//         }
+//     }
+//     return true
+// }
 
-function Catch(element, error) {
+function catchError(element, error) {
     element.classList.add("is-invalid")
     const textErr = document.createElement("div");
     textErr.classList.add("invalid-feedback");
@@ -71,9 +76,19 @@ class Contact{
         this.gender = gender;
         this.id = id;
     }
-    static validate(){
-        
+    
+    firstNameValidate(){
+        if(this.fName.length > 20){
+            if(fName_error_div.dis)
+            fName_error_div
+        }
     }
+    lastNameValidate(){
+        if(this.lName.length > 20 ){
+            catchError(lName,"last name must be less than 20 character")
+        }
+    }
+
 }
 
 
